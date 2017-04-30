@@ -23,8 +23,10 @@ class DbsList extends Component {
         const {url,api,user} = this.props;
         const passDownProps = {url,api,user}
 
+        const wrapStyles = { style: { maxWidth:'960px', margin: '0 auto', textAlign: 'left'}}
+
         return (
-            <div>
+            <div {...wrapStyles}>
                 { this.state.databases.map((name)=>
                     <DbItem key={name} name={name} {...passDownProps}/>
                     )

@@ -12,11 +12,11 @@ class UsersProvider extends Component {
         this.state = {
             users: {}
         };
-       this.db = new PouchDB(props.url, {skipSetup: true});
+       this.db = new PouchDB(props.url + '_users', {skipSetup: true});
     }
 
     createUser(user){
-
+        console.info(user);
         // const _id = `org.couchdb.user:${user.name}`;
 
         // const newUser = {

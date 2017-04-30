@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 
-import AddUser from './AddUser'
+import CreateUser from './CreateUser'
 
 class UsersDb extends Component {
     render() {
         return (
             <div>
-                <AddUser onSubmit={this.props.createUser}/>
+                <CreateUser onSubmit={this.props.createUser}/>
                 {JSON.stringify(this.props.users)}
             </div>
         );
