@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import LoginProvider from './login'
+import UsersProvider from './UsersProvider'
 import DbExplorer from './DbExplorer'
+import USersDb from './UsersDb'
 
 class App extends Component {
   render() {
@@ -13,7 +15,10 @@ class App extends Component {
           <h2>Cloudant configurator </h2>
         </div>
           <LoginProvider>
-            <DbExplorer></DbExplorer>
+            <UsersProvider>
+              <USersDb/>
+              <DbExplorer></DbExplorer>
+            </UsersProvider>
           </LoginProvider>
       </div>
     );

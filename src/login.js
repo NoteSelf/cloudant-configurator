@@ -7,28 +7,28 @@ export default class Login extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {userInfo:{ name: 'danielo515', password: '' }};
+        this.state = {user:{ name: 'danielo515', password: '' }};
         this.handleSubmit = this.handleSubmit.bind(this);
         this.whoAmI = this.whoAmI.bind(this);
         this.logout = this.logout.bind(this);
     }
 
     handleChange(kindOfValue) {
-        return (event) => this.setState({ userInfo: { ...this.state.userInfo, [kindOfValue]: event.target.value} });
+        return (event) => this.setState({ user: { ...this.state.user, [kindOfValue]: event.target.value} });
     }
 
-    url(subpath){
-        return `https://${this.state.userInfo.name}.${this.props.vendorurl || 'cloudant.com'}/_${subpath}`
+    url(subpath=''){
+        return `https://${this.state.user.name}.${this.props.vendorurl || 'cloudant.com'}/${subpath}`
     }
 
     whoAmI(){
-        axios.get(this.url('session')).then(({data})=>{
-             this.setState({isUserLogged: data.ok, info: data});
+        axios.get(this.url('_session')).then(({data})=>{
+             this.setState({isUserLogged: data.ok, info: data.userCtx});
             })
     }
 
     logout(){
-        axios.delete(this.url('session')).then(({data})=>{
+        axios.delete(this.url('_session')).then(({data})=>{
              this.setState({isUserLogged: false, info: {}});
             })
     }
@@ -39,7 +39,7 @@ export default class Login extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        axios.post(this.url('session'),this.state.userInfo)
+        axios.post(this.url('_session'),this.state.user)
         .then(this.whoAmI)
         .catch(console.info);
     }
@@ -50,14 +50,14 @@ export default class Login extends Component {
             { !this.state.isUserLogged 
             ?
                 <form onSubmit={this.handleSubmit}>
-                    <input type="text" value={this.state.userInfo.name} onChange={this.handleChange('name')} />
-                    <input type="password" value={this.state.userInfo.password} onChange={this.handleChange('password')} />
+                    <input type="text" value={this.state.user.name} onChange={this.handleChange('name')} />
+                    <input type="password" value={this.state.user.password} onChange={this.handleChange('password')} />
                     <button type="submit">Login</button>
                 </form>
             :
                 <div><button onClick={this.logout}>Logout</button>
                     { 
-                        React.cloneElement(this.props.children, this.state.info)
+                        React.cloneElement(this.props.children, { user: this.state.info, url: this.url(), api: axios.create({baseURL: this.url()}) })
                     }
                 </div>
             }
