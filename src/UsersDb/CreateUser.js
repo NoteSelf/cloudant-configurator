@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Form, Text, Checkbox, NestedForm  } from 'react-form'
+import { Form, Text, Checkbox } from 'react-form'
 
 
 class CreateUser extends Component {
@@ -10,9 +10,19 @@ class CreateUser extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleSubmit(e){
-        e.preventDefault();
-        return this.props.onSubmit(this.state.user);
+    handleSubmit({ name, password, roles, metadata}){
+        // We need to first convert the data from the form format to the user format
+        roles = Object.keys(roles).filter( k => roles[k]) // because roles props are booleans it is enough to just return the value
+        metadata = metadata
+                .reduce( (full, meta) => (
+                    { 
+                        ...full, 
+                        [meta.name]:meta.value
+                    })
+                    , {});
+        const user = { name, password, roles, metadata };
+        // And then submit the user to our onSubmit function
+        this.props.onSubmit(user);
     }
 
     makeInput(name, type="text"){
@@ -43,15 +53,14 @@ class CreateUser extends Component {
 
     render() {
         const roles = [
-            {label:'Reader',value:'_reader'},
-            {label:'Writer',value:'_writer'},
-            {label:'Admin',value:'_admin'}
+            {label:'Reader',value:'reader'},
+            {label:'Writer',value:'writer'}
             ]
         return (
         <div>
             <Form
                 defaultValues={{metadata:[]}} 
-                onSubmit={this.props.onSubmit}>
+                onSubmit={this.handleSubmit}>
                 {({submitForm, addValue, values}) => {
                 return (
                     <form onSubmit={submitForm}>

@@ -30,7 +30,7 @@ export default class DbItem extends Component {
         this.addUser = this.addUser.bind(this);        
         this.checkCouchAuth = this.checkCouchAuth.bind(this);
         this.state = { 
-            data: {}, error: false, couchAuth: false , addingAnUser: false,
+            error: false, couchAuth: false , addingAnUser: false,
             members: { names:[], roles:[] },
             admins: {names: [], roles: [] }
         };
@@ -74,7 +74,7 @@ export default class DbItem extends Component {
                     "names": ["member"], "roles": []
                 },
                 "admins": {
-                    "names": [this.props.user.name], "roles": ["_admin"]
+                    "names": [this.props.user.name], "roles": []
                 }
             };
 
@@ -92,11 +92,16 @@ export default class DbItem extends Component {
                 .catch(this.errored)
     }
 
-    // Temporary method, this SHOULD BE REMOVED
-    addUser(user){
-        this.setState({addingAnUser:false});
-        return this.db.pouch
-        .signup(user.name,user.password)
+    addUser({name,role}){
+        console.log(arguments)
+        return this.db
+        .api
+        .get('_security')
+        .then(({ data }) =>
+        {
+            data[role].names.push(name)
+            return this.db.api.put('_security', data);
+        })
         .then(this.checkCouchAuth)
         .catch(this.errored)
     }
@@ -108,7 +113,7 @@ export default class DbItem extends Component {
                         .concat(
                             admins.names.map( usr =>({ name:usr, admin:true })) // Admin users
                         )
-        return <UsersList users={users} addUser={this.addUser}/>
+        return <UsersList users={users} availableUsers={this.props.users} addUser={this.addUser}/>
     }
 
     render() {

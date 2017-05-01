@@ -20,8 +20,8 @@ class DbsList extends Component {
     }
     
     render() {
-        const {url,api,user} = this.props;
-        const passDownProps = {url,api,user}
+        const {url,api,user,users} = this.props;
+        const passDownProps = {url,api,user,users}
 
         const wrapStyles = { style: { maxWidth:'960px', margin: '0 auto', textAlign: 'left'}}
 

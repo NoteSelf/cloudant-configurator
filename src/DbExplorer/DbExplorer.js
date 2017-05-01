@@ -32,8 +32,8 @@ export default class DbExplorer extends Component {
 
     render(){
 
-        const {url,api,user} = this.props;
-        const commonProps = {url,api,user}
+        const {url,api,user,users} = this.props;
+        const commonProps = {url,api,user, users}
 
         return (
             <div>

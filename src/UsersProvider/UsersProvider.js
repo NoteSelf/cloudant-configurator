@@ -13,10 +13,11 @@ class UsersProvider extends Component {
             users: {}
         };
        this.db = new PouchDB(props.url + '_users', {skipSetup: true});
+       window.axios = this.props.api;
     }
 
-    createUser(user){
-        console.info(user);
+    createUser({name,password, ...opts}){
+        console.info(opts);
         // const _id = `org.couchdb.user:${user.name}`;
 
         // const newUser = {
@@ -42,12 +43,12 @@ class UsersProvider extends Component {
         // })
 
         this.db
-        .signup(user.name,user.password,{roles:['reader']})
+        .signup(name,password,opts)
         .then(status =>{
             this.setState({
                 users: {
                     ...this.state.users, 
-                    [user.name]: { name: user.name, id: status.id } }
+                    [name]: { name, id: status.id, ...opts } }
                 })
         })
     }
