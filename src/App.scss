@@ -1,14 +1,14 @@
+$noteself-color: #76BB7A;
 .App {
   text-align: center;
 }
 
 .App-logo {
-  animation: App-logo-spin infinite 20s linear;
   height: 80px;
 }
 
 .App-header {
-  background-color: #222;
+  background-color: lighten( $noteself-color, 10% );
   height: 150px;
   padding: 20px;
   color: white;

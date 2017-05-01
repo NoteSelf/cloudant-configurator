@@ -23,7 +23,9 @@ export default class Login extends Component {
 
     whoAmI(){
         axios.get(this.url('_session')).then(({data})=>{
-             this.setState({isUserLogged: data.ok, info: data.userCtx});
+             if(data.ok && data.info.authenticated === 'cookie'){
+                 this.setState({isUserLogged: true , info: data.userCtx});
+                }
             })
     }
 

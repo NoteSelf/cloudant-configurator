@@ -23,7 +23,7 @@ class DbsList extends Component {
         const {url,api,user,users} = this.props;
         const passDownProps = {url,api,user,users}
 
-        const wrapStyles = { style: { maxWidth:'960px', margin: '0 auto', textAlign: 'left'}}
+        const wrapStyles = { style: { display:'inline-block', textAlign: 'left'}}
 
         return (
             <div {...wrapStyles}>
