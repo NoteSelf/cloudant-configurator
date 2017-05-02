@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './styles.css'
 import { Form, Text, Checkbox } from 'react-form'
-import { VelocityTransitionGroup, VelocityComponent } from 'velocity-react'
+import { VelocityTransitionGroup } from 'velocity-react'
 
 class CreateUser extends Component {
 

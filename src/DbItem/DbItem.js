@@ -71,7 +71,7 @@ export default class DbItem extends Component {
             {
                 "couchdb_auth_only": true,
                 "members": {
-                    "names": ["member"], "roles": []
+                    "names": [], "roles": []
                 },
                 "admins": {
                     "names": [this.props.user.name], "roles": []
