@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 
 import GrantUser  from '../GrantUser'
+import SlideDown from '../SlideDown'
 import User from './User'
 
+const GrantUserSlideDown = SlideDown(GrantUser)
 class UsersList extends Component {
 
     constructor(props) {
@@ -27,11 +29,9 @@ class UsersList extends Component {
         const users = this.props.users.map( usr => <User key={usr.name} {...usr}/>)
         const {availableUsers} = this.props;
         return (
-            <div>
-                <button onClick={()=>this.setState({addingAnUser: true})}> Grant User </button>
-                { this.state.addingAnUser && 
-                <GrantUser  users={availableUsers} onSubmit={this.formSubmitted}/>
-                }
+            <div className='UsersList-wrapper'>
+                <button onClick={()=>this.setState({addingAnUser: !this.state.addingAnUser})}> Grant User </button>
+                <GrantUserSlideDown expanded={this.state.addingAnUser} users={availableUsers} onSubmit={this.formSubmitted}/>
                 {users}
             </div>
         );

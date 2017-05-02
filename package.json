@@ -15,7 +15,8 @@
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
     "react-form": "^1.2.6",
-    "react-icons": "^2.2.3"
+    "react-icons": "^2.2.3",
+    "velocity-react": "^1.2.2"
   },
   "scripts": {
     "build-css": "node-sass src/ -o src/",

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import EnableUsersDb from './EnableUsersDb'
 import DbsList from './DbsList'
 
+import './styles.css'
 export default class DbExplorer extends Component {
 
     constructor(props) {
