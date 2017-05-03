@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import Map from 'lodash.map'
+import RaisedButton from 'material-ui/RaisedButton';
+import FlatButton from 'material-ui/FlatButton';
 
 import './styles.css'
 import SlideDown from '../SlideDown'
@@ -26,7 +28,7 @@ class UsersDb extends Component {
     render() {
         return (
             <div className='UsersDb-wrapper'>
-            <button onClick={()=>this.setState({showCreationForm: !this.state.showCreationForm})}>Create user</button>
+            <RaisedButton primary style={{color:'white'}} onClick={()=>this.setState({showCreationForm: !this.state.showCreationForm})}>Create user</RaisedButton>
                 <CreateUserSlider expanded={this.state.showCreationForm} onSubmit={this.props.createUser} />
                 <div className="Users-list">
                     {Map(this.props.users, (user,k)=><User key={k} {...user}/>)}

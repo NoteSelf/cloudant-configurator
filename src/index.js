@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Theme from './theme'
 import App from './App';
 import './index.css';
 
@@ -8,6 +9,6 @@ require('velocity-animate');
 require('velocity-animate/velocity.ui');
 
 ReactDOM.render(
-  <App />,
+  <Theme><App /></Theme>,
   document.getElementById('root')
 );
