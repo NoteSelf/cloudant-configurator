@@ -28,7 +28,7 @@ class UsersDb extends Component {
     render() {
         return (
             <div className='UsersDb-wrapper'>
-            <RaisedButton primary style={{color:'white'}} onClick={()=>this.setState({showCreationForm: !this.state.showCreationForm})}>Create user</RaisedButton>
+            <RaisedButton primary style={{color:'white'}} onClick={()=>this.setState({showCreationForm: !this.state.showCreationForm})} label='Create user'></RaisedButton>
                 <CreateUserSlider expanded={this.state.showCreationForm} onSubmit={this.props.createUser} />
                 <div className="Users-list">
                     {Map(this.props.users, (user,k)=><User key={k} {...user}/>)}

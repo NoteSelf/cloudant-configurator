@@ -23,7 +23,7 @@ const muiTheme = getMuiTheme({
         accent1Color: pinkA200,
         accent2Color: grey100,
         accent3Color: grey500,
-        textColor: white,
+        textColor: darkBlack,
         color: white,
         secondaryTextColor: fade(grey50, 0.54),
         alternateTextColor: white,

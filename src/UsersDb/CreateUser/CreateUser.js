@@ -2,6 +2,12 @@ import React, { Component } from 'react';
 import './styles.css'
 import { Form, Text, Checkbox } from 'react-form'
 import { VelocityTransitionGroup } from 'velocity-react'
+import FlatButton from 'material-ui/FlatButton';
+import Add from 'material-ui/svg-icons/content/add'
+import {green600} from 'material-ui/styles/colors'
+
+
+import TextField from '../../material-react-form/TextField'
 
 class CreateUser extends Component {
 
@@ -28,10 +34,7 @@ class CreateUser extends Component {
     makeInput(name, type = "text") {
 
         return (
-            <div>
-                <label htmlFor={name}>{name}</label>
-                <Text field={name} placeholder={name} type={type} />
-            </div>
+                <TextField field={name} floatingLabelText={name} name={name} type={type} />
         )
     }
 
@@ -45,8 +48,8 @@ class CreateUser extends Component {
     makeMeta(f, i) {
         return (
             <div className='CreateUser-form-group' key={i}>
-                <Text field={['metadata', i, 'name']} placeholder='Field name' />
-                <Text field={['metadata', i, 'value']} placeholder='Field value' />
+                <TextField field={['metadata', i, 'name']} hintText='The name of this metadata field' floatingLabelText='Field name' />
+                <TextField field={['metadata', i, 'value']} hintText='The value of this metadata field' floatingLabelText='Field value' />
             </div>
         )
     }
@@ -72,8 +75,7 @@ class CreateUser extends Component {
                                 <h5>Roles</h5>
                                 {roles.map(r => this.makeCheckbox(r))}
                                 <div className='CreateUser-header-group'>
-                                    <h5>Metadata</h5>
-                                    <button type='button' onClick={() => addValue('metadata', {})}>+</button>
+                                    <FlatButton label='Metadata' icon={<Add color={green600}/>} onClick={() => addValue('metadata', {})}/>
                                 </div>
                                 <VelocityTransitionGroup component="div"
                                     enter={{ animation: 'slideDown', duration: 500 }}
