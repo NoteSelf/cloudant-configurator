@@ -16,7 +16,7 @@ class App extends Component {
           <LoginProvider>
             <UsersProvider>
               <UsersDb/>
-              <DbExplorer></DbExplorer>
+              <DbExplorer/>
             </UsersProvider>
           </LoginProvider>
         </div>

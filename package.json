@@ -10,13 +10,14 @@
   "dependencies": {
     "axios": "^0.16.1",
     "lodash.map": "^4.6.0",
+    "material-ui": "^0.18.0",
     "pouchdb": "^6.2.0",
     "pouchdb-authentication": "^0.5.5",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
     "react-form": "^1.2.6",
     "react-icons": "^2.2.3",
-    "material-ui": "^0.18.0",
+    "react-tap-event-plugin": "^2.0.1",
     "velocity-react": "^1.2.2"
   },
   "scripts": {

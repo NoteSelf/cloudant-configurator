@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import {Card,  CardTitle, CardText} from 'material-ui/Card';
+
 import EnableUsersDb from './EnableUsersDb'
 import DbsList from './DbsList'
 
@@ -37,12 +39,14 @@ export default class DbExplorer extends Component {
         const commonProps = {url,api,user, users}
 
         return (
-            <div>
-                { !this.state.usersDbExists 
-                    ? <EnableUsersDb {...commonProps} onSuccess={()=> this.setState({usersDbExists: true})}/> 
-                    : <DbsList {...commonProps}/>
-                }
-            </div>
+            <Card>
+                <CardText>
+                    { !this.state.usersDbExists 
+                        ? <EnableUsersDb {...commonProps} onSuccess={()=> this.setState({usersDbExists: true})}/> 
+                        : <DbsList {...commonProps}/>
+                    }
+                </CardText>
+            </Card>
         );
     }
 }

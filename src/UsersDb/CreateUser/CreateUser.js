@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import './styles.css'
-import { Form, Text, Checkbox } from 'react-form'
+import { Form, Checkbox } from 'react-form'
 import { VelocityTransitionGroup } from 'velocity-react'
 import FlatButton from 'material-ui/FlatButton';
 import Add from 'material-ui/svg-icons/content/add'
 import {green600} from 'material-ui/styles/colors'
+import RaisedButton from 'material-ui/RaisedButton';
 
 
 import TextField from '../../material-react-form/TextField'
@@ -82,7 +83,7 @@ class CreateUser extends Component {
                                     leave={{ animation: 'slideUp', duration: 500 }}>
                                     {values.metadata.map(this.makeMeta)}
                                 </VelocityTransitionGroup>
-                                <button type='submit'>add</button>
+                                <RaisedButton type='submit' label='Ok' primary></RaisedButton>
                             </form>
                         )
                     }}

@@ -2,11 +2,21 @@ import React, { Component } from 'react';
 import GoDatabase from 'react-icons/lib/go/database';
 import MdErrorOutline from 'react-icons/lib/md/error-outline'
 
+import {Card,  CardHeader, CardText} from 'material-ui/Card';
+
+
 import PouchDB  from 'pouchdb'
 import pouchdbAuthentication from 'pouchdb-authentication'
 PouchDB.plugin(pouchdbAuthentication);
 
 import UsersList from '../UsersList'
+import SlideDown from '../SlideDown'
+import GrantUser  from '../GrantUser'
+import {PersonAdd,Cancel} from '../simpleComponents/plus'
+
+const GrantUserSlideDown = SlideDown(GrantUser)
+const DivSlideDown = SlideDown('div')
+
 
 const wrapGeneratedAxios = (ax, baseUrl) => {
 
@@ -93,6 +103,7 @@ export default class DbItem extends Component {
     }
 
     addUser({name,role}){
+        this.setState({addingAnUser: false});
         console.log(arguments)
         return this.db
         .api
@@ -118,14 +129,27 @@ export default class DbItem extends Component {
 
     render() {
         return (
-            <div>
-                <GoDatabase /><span>{this.props.name}</span>{this.state.error ? <MdErrorOutline /> : null }
-                { !this.state.couchAuth 
-                    ? <button onClick={this.enableCouchAuth}>Enable</button> 
-                    :  this.renderUsersList(this.state.members, this.state.admins) 
-                }
-                
-            </div>
+            <Card 
+                onExpandChange={()=>this.setState({addingAnUser: !this.state.addingAnUser})}
+                expandable
+            >
+                <CardHeader 
+                    title={this.props.name} 
+                    avatar={<GoDatabase />} 
+                    subtitle={this.state.error ? <MdErrorOutline /> : null }
+                    showExpandableButton={this.state.couchAuth}
+                    closeIcon={<PersonAdd/>}
+                    openIcon={<Cancel/>}
+                    />
+                    <CardText>
+                    { !this.state.couchAuth 
+                        ? <button onClick={this.enableCouchAuth}>Enable</button> 
+                        :  <DivSlideDown expanded={!this.state.addingAnUser}>{this.renderUsersList(this.state.members, this.state.admins)} </DivSlideDown>
+                    }
+                    <GrantUserSlideDown expanded={this.state.addingAnUser} users={this.props.users} onSubmit={this.formSubmitted}/>
+
+                    </CardText>
+            </Card>
         );
     }
 }
