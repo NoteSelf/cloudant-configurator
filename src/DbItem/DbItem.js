@@ -131,6 +131,7 @@ export default class DbItem extends Component {
         return (
             <Card 
                 onExpandChange={()=>this.setState({addingAnUser: !this.state.addingAnUser})}
+                className='Card'
                 expandable
             >
                 <CardHeader 
@@ -146,7 +147,7 @@ export default class DbItem extends Component {
                         ? <button onClick={this.enableCouchAuth}>Enable</button> 
                         :  <DivSlideDown expanded={!this.state.addingAnUser}>{this.renderUsersList(this.state.members, this.state.admins)} </DivSlideDown>
                     }
-                    <GrantUserSlideDown expanded={this.state.addingAnUser} users={this.props.users} onSubmit={this.formSubmitted}/>
+                    <GrantUserSlideDown expanded={this.state.addingAnUser} users={this.props.users} onSubmit={this.addUser}/>
 
                     </CardText>
             </Card>

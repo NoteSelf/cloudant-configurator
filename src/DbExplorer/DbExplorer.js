@@ -40,6 +40,10 @@ export default class DbExplorer extends Component {
 
         return (
             <Card>
+                <CardTitle 
+                    title='Databases'
+                    subTitle='existing databases'
+                />
                 <CardText>
                     { !this.state.usersDbExists 
                         ? <EnableUsersDb {...commonProps} onSuccess={()=> this.setState({usersDbExists: true})}/> 

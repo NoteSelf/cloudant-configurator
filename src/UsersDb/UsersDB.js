@@ -28,6 +28,7 @@ class UsersDb extends Component {
         return (
             <Card expandable
                   onExpandChange={(expanded)=> this.setState({showCreationForm:expanded})}
+                  className='UsersDb-wrapper Card'
                   >
                 <CardTitle 
                     actAsExpander showExpandableButton 
