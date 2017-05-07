@@ -59,7 +59,7 @@ export default class Login extends Component {
             :
                 <div><button onClick={this.logout}>Logout</button>
                     { 
-                        React.cloneElement(this.props.children, { user: this.state.info, url: this.url(), api: axios.create({baseURL: this.url()}) })
+                        React.cloneElement(this.props.children, { logout: this.logout, user: this.state.info, url: this.url(), api: axios.create({baseURL: this.url()}) })
                     }
                 </div>
             }

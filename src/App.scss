@@ -1,4 +1,5 @@
-$noteself-color: #76BB7A;
+@import 'colors';
+
 .App {
   text-align: center;
 }
@@ -8,7 +9,7 @@ $noteself-color: #76BB7A;
 }
 
 .App-header {
-  background-color: lighten( $noteself-color, 10% );
+  background-color: $noteself-light;
   height: 150px;
   padding: 20px;
   color: white;
@@ -24,7 +25,6 @@ $noteself-color: #76BB7A;
   font-size: large;
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.Card {
+  margin: 1em 0;
 }

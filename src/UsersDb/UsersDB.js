@@ -1,12 +1,20 @@
 import React, { Component } from 'react';
 import Map from 'lodash.map'
+import RaisedButton from 'material-ui/RaisedButton';
+import FlatButton from 'material-ui/FlatButton';
+
+import {PersonAdd, Cancel} from '../simpleComponents/plus';
+
+import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+
 
 import './styles.css'
 import SlideDown from '../SlideDown'
 import CreateUser from './CreateUser'
 import User from './User'
+import List from '../UsersList'
 
-const CreateUserSlider = SlideDown(CreateUser)
+const CardTextSlider = SlideDown(CardText)
 class UsersDb extends Component {
 
     constructor(props) {
@@ -15,23 +23,29 @@ class UsersDb extends Component {
             showCreationForm: false
         };
     }
-    
-    conditionalStyles(condition){
-        return { 
-            height: condition ? '' : 0 ,
-            opacity: condition ? 1 : 0
-        }
-    }
 
     render() {
         return (
-            <div className='UsersDb-wrapper'>
-            <button onClick={()=>this.setState({showCreationForm: !this.state.showCreationForm})}>Create user</button>
-                <CreateUserSlider expanded={this.state.showCreationForm} onSubmit={this.props.createUser} />
-                <div className="Users-list">
-                    {Map(this.props.users, (user,k)=><User key={k} {...user}/>)}
-                </div>
-            </div>
+            <Card expandable
+                  onExpandChange={(expanded)=> this.setState({showCreationForm:expanded})}
+                  className='UsersDb-wrapper Card'
+                  >
+                <CardTitle 
+                    actAsExpander showExpandableButton 
+                    title="Users" 
+                    closeIcon={<PersonAdd/>}
+                    openIcon={<Cancel/>}
+
+                />
+                <CardTextSlider expanded={!this.state.showCreationForm}>
+                    <div className="Users-list">
+                        <List users={Map(this.props.users, (user,k)=>({...user, id:k }))} />
+                    </div>
+                </CardTextSlider>
+                <CardTextSlider expanded={this.state.showCreationForm}>
+                    <CreateUser onSubmit={this.props.createUser} />
+                </CardTextSlider>
+            </Card>
         );
     }
 }
