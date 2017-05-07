@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types'
 import GoDatabase from 'react-icons/lib/go/database';
 import MdErrorOutline from 'react-icons/lib/md/error-outline'
 
@@ -33,16 +34,20 @@ const wrapGeneratedAxios = (ax, baseUrl) => {
 
 export default class DbItem extends Component {
 
+    static propTypes = {
+      couchAuth: PropTypes.bool,
+      members: PropTypes.shape({ names: PropTypes.array, roles: PropTypes.array}),  
+      admins: PropTypes.shape({ names: PropTypes.array, roles: PropTypes.array}),  
+    };
+
     constructor(props) {
         super(props);
         this.errored = this.errored.bind(this);
         this.enableCouchAuth = this.enableCouchAuth.bind(this);
         this.addUser = this.addUser.bind(this);        
-        this.checkCouchAuth = this.checkCouchAuth.bind(this);
         this.state = { 
-            error: false, couchAuth: false , addingAnUser: false,
-            members: { names:[], roles:[] },
-            admins: {names: [], roles: [] }
+            error: false,
+            addingAnUser: false,
         };
         this.api = props.api;
         this.db = { 
@@ -51,27 +56,9 @@ export default class DbItem extends Component {
         };
     }
 
-    componentDidMount() {
-        this.checkCouchAuth()
-            .catch(this.errored)
-    }
-
     errored(err){
         console.error(err);
         this.setState({ error: true, err: err.message })
-    }
-
-    checkCouchAuth(){
-        return this.db
-        .api
-        .get('_security')
-        .then(({ data }) =>
-        {
-            const isEnabled = data.couchdb_auth_only;
-            // const members = data.members || this.state.members;
-            data && this.setState({couchAuth: isEnabled, members: data.members, admins: data.admins})
-            return data;
-        })
     }
 
     enableCouchAuth() {
@@ -124,7 +111,7 @@ export default class DbItem extends Component {
                         .concat(
                             admins.names.map( usr =>({ name:usr, admin:true })) // Admin users
                         )
-        return <UsersList users={users} availableUsers={this.props.users} addUser={this.addUser}/>
+        return <UsersList users={users} />
     }
 
     render() {
@@ -138,14 +125,14 @@ export default class DbItem extends Component {
                     title={this.props.name} 
                     avatar={<GoDatabase />} 
                     subtitle={this.state.error ? <MdErrorOutline /> : null }
-                    showExpandableButton={this.state.couchAuth}
+                    showExpandableButton={this.props.couchAuth}
                     closeIcon={<PersonAdd/>}
                     openIcon={<Cancel/>}
                     />
                     <CardText>
-                    { !this.state.couchAuth 
+                    { !this.props.couchAuth 
                         ? <button onClick={this.enableCouchAuth}>Enable</button> 
-                        :  <DivSlideDown expanded={!this.state.addingAnUser}>{this.renderUsersList(this.state.members, this.state.admins)} </DivSlideDown>
+                        :  <DivSlideDown expanded={!this.state.addingAnUser}>{this.renderUsersList(this.props.members, this.props.admins)} </DivSlideDown>
                     }
                     <GrantUserSlideDown expanded={this.state.addingAnUser} users={this.props.users} onSubmit={this.addUser}/>
 

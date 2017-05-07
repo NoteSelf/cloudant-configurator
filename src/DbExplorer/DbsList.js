@@ -1,36 +1,21 @@
 import React, { Component } from 'react';
 
-
+import Slider from '../simpleComponents/Slider'
 import DbItem from '../DbItem'
 
 class DbsList extends Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            databases: []
-        };
-    }
-    
-    componentDidMount() {
-        this.props.api
-        .get('_all_dbs')
-        .then(({data}) => this.setState({
-            databases: data.filter( db => db !== '_users')
-        }));
-    }
     
     render() {
         const {url,api,user,users} = this.props;
         const passDownProps = {url,api,user,users}
 
         return (
-            <div className='DbsList'>
-                { this.state.databases.map((name)=>
-                    <DbItem key={name} name={name} {...passDownProps}/>
+            <Slider className='DbsList'>
+                { this.props.databases.map((db)=>
+                    <DbItem key={db.name} {...db} {...passDownProps}/>
                     )
                 }
-            </div>
+            </Slider>
         );
     }
 }

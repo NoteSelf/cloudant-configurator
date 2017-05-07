@@ -5,14 +5,13 @@ import FlatButton from 'material-ui/FlatButton';
 
 import {PersonAdd, Cancel} from '../simpleComponents/plus';
 
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import {Card, CardActions, CardHeader, CardTitle, CardText} from 'material-ui/Card';
 
 
 import './styles.css'
 import SlideDown from '../SlideDown'
 import CreateUser from './CreateUser'
-import User from './User'
-import List from '../UsersList'
+import UsersList from '../UsersList'
 
 const CardTextSlider = SlideDown(CardText)
 class UsersDb extends Component {
@@ -39,7 +38,7 @@ class UsersDb extends Component {
                 />
                 <CardTextSlider expanded={!this.state.showCreationForm}>
                     <div className="Users-list">
-                        <List users={Map(this.props.users, (user,k)=>({...user, id:k }))} />
+                        <UsersList users={Map(this.props.users, (user,k)=>({...user, id:k }))} />
                     </div>
                 </CardTextSlider>
                 <CardTextSlider expanded={this.state.showCreationForm}>
