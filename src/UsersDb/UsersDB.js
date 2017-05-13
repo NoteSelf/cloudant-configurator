@@ -18,9 +18,22 @@ class UsersDb extends Component {
 
     constructor(props) {
         super(props);
+        this.createUser = this.createUser.bind(this);
         this.state = {
             showCreationForm: false
         };
+    }
+
+    /**
+     * This method is only for hidding the creation form. It defers the user creation to its parent, the UsersProvider
+     * 
+     * @param {Object} user 
+     * 
+     * @memberof UsersDb
+     */
+    createUser(user){
+        this.props.createUser(user);
+        this.setState({showCreationForm: false})
     }
 
     render() {
@@ -42,7 +55,7 @@ class UsersDb extends Component {
                     </div>
                 </CardTextSlider>
                 <CardTextSlider expanded={this.state.showCreationForm}>
-                    <CreateUser onSubmit={this.props.createUser} />
+                    <CreateUser onSubmit={this.createUser} />
                 </CardTextSlider>
             </Card>
         );
