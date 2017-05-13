@@ -3,12 +3,14 @@ import axios from 'axios';
 
 axios.defaults.withCredentials = true;
 
+import LoginForm from '../LoginForm'
+
 export default class Login extends Component {
 
     constructor(props) {
         super(props);
         this.state = {user:{ name: 'danielo515', password: '' }};
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.tryLogin = this.tryLogin.bind(this);
         this.whoAmI = this.whoAmI.bind(this);
         this.logout = this.logout.bind(this);
     }
@@ -39,9 +41,8 @@ export default class Login extends Component {
         this.whoAmI();
     }
 
-    handleSubmit(event) {
-        event.preventDefault();
-        axios.post(this.url('_session'),this.state.user)
+    tryLogin(user) {
+        axios.post(this.url('_session'),user)
         .then(this.whoAmI)
         .catch(console.info);
     }
@@ -51,11 +52,7 @@ export default class Login extends Component {
             <div>
             { !this.state.isUserLogged 
             ?
-                <form onSubmit={this.handleSubmit}>
-                    <input type="text" value={this.state.user.name} onChange={this.handleChange('name')} />
-                    <input type="password" value={this.state.user.password} onChange={this.handleChange('password')} />
-                    <button type="submit">Login</button>
-                </form>
+                <LoginForm onSubmit={this.tryLogin}/>
             :
                 <div><button onClick={this.logout}>Logout</button>
                     { 

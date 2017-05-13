@@ -4,7 +4,7 @@ import { VelocityComponent, VelocityTransitionGroup } from 'velocity-react'
 
 const Slider = ({ children, ...props }) => {
     return (
-        <VelocityComponent runOnMount animation={{ opacity: children.length ? 1 : 0 }} duration={400}>
+//        <VelocityComponent runOnMount style={{opacity:0}} animation={{ opacity: children.length ? 1 : 0 }} duration={400}>
             <VelocityTransitionGroup component="div"
                 enter={{ animation: 'slideDown', duration: 500 }}
                 leave={{ animation: 'slideUp', duration: 500 }}
@@ -12,7 +12,7 @@ const Slider = ({ children, ...props }) => {
             >
                 {children}
             </VelocityTransitionGroup>
-        </VelocityComponent>
+//        </VelocityComponent>
     );
 };
 
