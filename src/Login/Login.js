@@ -4,6 +4,7 @@ import axios from 'axios';
 axios.defaults.withCredentials = true;
 
 import LoginForm from '../LoginForm'
+import { OkButton } from '../simpleComponents/plus'
 
 export default class Login extends Component {
 
@@ -54,7 +55,7 @@ export default class Login extends Component {
             ?
                 <LoginForm onSubmit={this.tryLogin}/>
             :
-                <div><button onClick={this.logout}>Logout</button>
+                <div><OkButton onClick={this.logout} label='Logout' fullWidth/>
                     { 
                         React.cloneElement(this.props.children, { logout: this.logout, user: this.state.info, url: this.url(), api: axios.create({baseURL: this.url()}) })
                     }
