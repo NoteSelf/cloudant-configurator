@@ -11,6 +11,8 @@ export default class DbExplorer extends Component {
     constructor(props) {
         super(props);
         this.getDbInfo = this.getDbInfo.bind(this);
+        this.updateSecurityDocument = this.updateSecurityDocument.bind(this);
+        this.grantUserToDb = this.grantUserToDb.bind(this);
         this.state = {
             error: false,
             databases: {},
@@ -61,10 +63,36 @@ export default class DbExplorer extends Component {
             })
     }
 
+    /**
+     * Grants an user access to certain database (using couch auth)
+     * The database should have couch auth enabled
+     * 
+     * @param {String} dbname the database where the user should be granted to
+     * @param {Object} {name,role} The user's name and role
+     * @returns 
+     * 
+     * @memberof DbExplorer
+     */
+    grantUserToDb(dbName, {name,role}){
+        console.log('About to add ' + name + ' as ' + role + ' to ' + dbName);
+        return this.getDbInfo(dbName)
+        .then(( data ) =>
+        {
+            data[role].names.push(name);
+            return this.updateSecurityDocument(dbName, data);
+        })
+        .then(()=> this.getDbInfo(dbName));
+    }
+
+    updateSecurityDocument(dbName, doc){
+        const url = urlJoin(this.props.url, dbName, '_security')
+        return this.props.api.put(url, doc)
+    }
+
     render() {
 
         const { url, api, user, users } = this.props;
-        const commonProps = { url, api, user, users }
+        const passDownProps = { url, api, user, users, grantUserToDb: this.grantUserToDb }
         const databasesAsArray = Map( this.state.databases )
 
         return (
@@ -74,7 +102,7 @@ export default class DbExplorer extends Component {
                     subTitle='existing databases'
                 />
                 <CardText>
-                    <DbsList databases={databasesAsArray} {...commonProps} />
+                    <DbsList databases={databasesAsArray} {...passDownProps} />
                 </CardText>
             </Card>
         );

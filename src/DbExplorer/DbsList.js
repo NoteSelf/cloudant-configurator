@@ -7,16 +7,14 @@ import DbItemDisabled from '../DbItemDisabled'
 class DbsList extends Component {
 
     render() {
-        const { url, api, user, users } = this.props;
-        const passDownProps = { url, api, user, users }
         const enabledDbs = [];
         const nonEnabledDbs = [];
 
         this.props.databases.forEach((db) => {
 
             db.couchAuth 
-            ? enabledDbs.push(<DbItem key={db.name} {...db} {...passDownProps} />) 
-            : nonEnabledDbs.push(<DbItemDisabled key={db.name} {...db} {...passDownProps} />)
+            ? enabledDbs.push(<DbItem key={db.name} {...db} {...this.props} />) 
+            : nonEnabledDbs.push(<DbItemDisabled key={db.name} {...db} {...this.props} />)
         })
 
         // We just render enabled DBs first, and non enabled after
