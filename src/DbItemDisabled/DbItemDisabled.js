@@ -17,24 +17,11 @@ import {PersonAdd,Cancel, OkButton, ActiveDb, NonActiveDb } from '../simpleCompo
 const GrantUserSlideDown = SlideDown(GrantUser)
 const DivSlideDown = SlideDown('div')
 
-
-const wrapGeneratedAxios = (ax, baseUrl) => {
-
-    baseUrl = baseUrl.endsWith('/') ? baseUrl : baseUrl + '/';
-    const wrapper = (method) => (url, ...args) => ax[method](baseUrl + url, ...args);
-
-    return {
-        get: wrapper('get'),
-        post: wrapper('post'),
-        put: wrapper('put')
-
-    }
-}
-
-export default class DbItem extends Component {
+export default class DbItemDisabled extends Component {
 
     static propTypes = {
       couchAuth: PropTypes.bool,
+      name: PropTypes.string,
     };
 
     constructor(props) {
@@ -43,12 +30,6 @@ export default class DbItem extends Component {
         this.enableCouchAuth = this.enableCouchAuth.bind(this);
         this.state = { 
             error: false,
-            addingAnUser: false,
-        };
-        this.api = props.api;
-        this.db = { 
-            api: wrapGeneratedAxios(this.api, `${props.name}/`),
-            pouch: new PouchDB(props.url + props.name, {skipSetup: true})
         };
     }
 
@@ -58,35 +39,9 @@ export default class DbItem extends Component {
     }
 
     enableCouchAuth() {
-        // This documents disables Cloudant auth and enables the couchdb auth using _users database
-        // ref https://console.ng.bluemix.net/docs/services/Cloudant/api/authorization.html#enabling-the-_users-database-with-cloudant
-        const basicDoc =
-            {
-                "couchdb_auth_only": true,
-                "members": {
-                    "names": [], "roles": []
-                },
-                "admins": {
-                    "names": [this.props.user.name], "roles": []
-                }
-            };
-
-            return this.db.api
-                .put('_security',basicDoc)
-                .then(({data})=>{
-                    if(data.ok === true){
-                        this.setState({
-                            couchAuth: true,
-                            members: basicDoc.members,
-                            admins: basicDoc.admins 
-                        })
-                    };
-                })
-                .catch(this.errored)
-    }
-
-    renderDisabledDb(){
-        return 
+        this.props
+        .enableCouchAuth(this.props.name)
+        .catch(this.errored)
     }
 
     render() {
