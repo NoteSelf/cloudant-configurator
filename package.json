@@ -2,7 +2,7 @@
   "name": "cloudant-configurator",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://noteself.github.io/cludant-configurator",
+  "homepage": "http://noteself.github.io/cloudant-configurator",
   "devDependencies": {
     "node-sass": "^4.5.2",
     "npm-run-all": "^4.0.2",
