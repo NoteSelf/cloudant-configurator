@@ -1,5 +1,5 @@
 import React from 'react';
-// import { VelocityComponent, VelocityTransitionGroup } from 'velocity-react'
+import { VelocityTransitionGroup } from 'velocity-react'
 
 
 const Slider = ({ children, ...props }) => {
