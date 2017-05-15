@@ -4,12 +4,17 @@ import PouchDB  from 'pouchdb'
 import pouchdbAuthentication from 'pouchdb-authentication'
 PouchDB.plugin(pouchdbAuthentication);
 
+import EnableUsersDb from '../EnableUsersDb'
+
+
 class UsersProvider extends Component {
 
     constructor(props) {
         super(props);
         this.createUser = this.createUser.bind(this);
+        this.getUsers = this.getUsers.bind(this);
         this.state = {
+            usersDbExists: false,
             users: {}
         };
        this.db = new PouchDB(props.url + '_users', {skipSetup: true});
@@ -68,22 +73,44 @@ class UsersProvider extends Component {
         })
     }
 
+    checkUsersDb() {
+        return this.props.api
+            .get('_users')
+            .then(({ data }) => {
+                this.setState({ usersDbExists: true });
+            })
+            .catch((err) => {
+                if (err.error === 'not_found') {
+                    return this.setState({ usersDbExists: false });
+                }
+                this.setState({ usersDbExists: false, error: true });
+                throw err;
+            })
+    }
+
     componentDidMount() {
-        this.getUsers()
+        this.checkUsersDb()
+        .then(this.getUsers)
     }
     
     
     render() {
+
+        const passdownProps = { 
+            ...this.props,
+            users: this.state.users,
+            createUser: this.createUser
+        }
+
         return (
             <div>
-            {
-                Children.map( this.props.children, 
-                    child => cloneElement(child, { 
-                        ...this.props, 
-                        users: this.state.users,
-                        createUser: this.createUser
-                    })
-                )
+            { !this.state.usersDbExists
+                ? 
+                    <EnableUsersDb {...passdownProps} onSuccess={() => this.setState({ usersDbExists: true })} />
+                : 
+                    Children.map( this.props.children, 
+                        child => cloneElement(child, passdownProps)
+                    )
             }
             </div>
         );

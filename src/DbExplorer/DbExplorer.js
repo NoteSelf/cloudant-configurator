@@ -1,56 +1,136 @@
 import React, { Component } from 'react';
-import {Card,  CardTitle, CardText} from 'material-ui/Card';
+import urlJoin from 'url-join'
+import Map from 'lodash.map'
 
-import EnableUsersDb from './EnableUsersDb'
 import DbsList from './DbsList'
+import generateAuthDoc from './couchAuthDoc'
+import CardSlider from '../CardSlider'
 
 import './styles.css'
 export default class DbExplorer extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { error: false };
+        this.getDbInfo = this.getDbInfo.bind(this);
+        this.updateSecurityDocument = this.updateSecurityDocument.bind(this);
+        this.grantUserToDb = this.grantUserToDb.bind(this);
+        this.enableCouchAuth = this.enableCouchAuth.bind(this);
+        this.state = {
+            error: false,
+            databases: {},
+        };
     }
 
-    componentDidMount(){
-        this.checkUsersDb()
+    componentDidMount() {
+        this
+        .getAllDbs()
+        .then( databases => 
+            databases.map(this.getDbInfo)
+        )
     }
 
-    checkUsersDb(){
+    getAllDbs() {
         return this.props.api
-        .get('_users')
-        .then(({data})=>
-        {
-            this.setState({ usersDbExists: true });
-        })
-        .catch((err) => 
-        {
-            if( err.error === 'not_found' ){
-                return this.setState({ usersDbExists: false });                
-            }
-            this.setState({ usersDbExists: false, error: true });
-            throw err;              
-        })
+            .get('_all_dbs')
+            .then(({ data }) => data
+                .filter(db => db !== '_users')
+            );
     }
 
-    render(){
+    /**
+     * Fetches the _security document of a couchdb database.
+     * It then updates the list of available databases with that information
+     * marking it as enabled if it meets the requirements to use CouchDb auth.
+     * @param {String} dbName the name of the database you want
+     * @returns {Promise}
+     */
+    getDbInfo(dbName) {
 
-        const {url,api,user,users} = this.props;
-        const commonProps = {url,api,user, users}
+        const url = urlJoin(this.props.url, dbName, '_security')
+
+        return this.props.api
+            .get(url)
+            .then(({ data }) => {
+                const isEnabled = data.couchdb_auth_only;
+                data
+                && 
+                this.setState((prevState, props) => (
+                        {
+                            databases:
+                            {
+                                ...prevState.databases,
+                                [dbName]:
+                                {
+                                    name: dbName,
+                                    couchAuth: isEnabled, 
+                                    members: data.members, admins: data.admins,
+                                }
+                            }
+                        }
+                    ))
+                return data;
+            })
+    }
+
+    updateSecurityDocument(dbName, doc){
+        const url = urlJoin(this.props.url, dbName, '_security')
+        return this.props.api
+            .put(url, doc)
+            .then(()=> dbName) // We return the dbName that has been updated so it be used down the chain
+    }
+    
+    /**
+     * Grants an user access to certain database (using couch auth)
+     * The database should have couch auth enabled
+     * 
+     * @param {String} dbname the database where the user should be granted to
+     * @param {Object} {name,role} The user's name and role
+     * @returns {Promise}
+     * 
+     */
+    grantUserToDb(dbName, {name,role}){
+        console.log('About to add ' + name + ' as ' + role + ' to ' + dbName);
+        return this.getDbInfo(dbName)
+        .then(( data ) =>
+        {
+            data[role].names.push(name);
+            return this.updateSecurityDocument(dbName, data);
+        })
+        .then(this.getDbInfo);
+    }
+
+    /**
+     * Enables Couchdb auth on an specific database.
+     * What it does is create a new _security document that meets the requirements of Couchdb authentication.
+     * @param {String} dbName the dbName you want to activate
+     * @returns {Promise}
+     * 
+     */
+    enableCouchAuth(dbName){
+        const authDoc = generateAuthDoc({admins: [this.props.user.name]});
+        return this.updateSecurityDocument(dbName,authDoc)
+                .then(this.getDbInfo)
+    }
+
+
+    render() {
+
+        const { url, api, user, users } = this.props;
+        const passDownProps = 
+        { 
+            url, api, user, users, 
+            grantUserToDb: this.grantUserToDb,
+            enableCouchAuth: this.enableCouchAuth
+        };
+        const databasesAsArray = Map( this.state.databases )
 
         return (
-            <Card>
-                <CardTitle 
+            <CardSlider
                     title='Databases'
                     subTitle='existing databases'
-                />
-                <CardText>
-                    { !this.state.usersDbExists 
-                        ? <EnableUsersDb {...commonProps} onSuccess={()=> this.setState({usersDbExists: true})}/> 
-                        : <DbsList {...commonProps}/>
-                    }
-                </CardText>
-            </Card>
+            >
+                        <DbsList databases={databasesAsArray} {...passDownProps} />
+            </CardSlider>
         );
     }
 }

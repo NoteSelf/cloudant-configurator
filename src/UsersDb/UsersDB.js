@@ -5,23 +5,35 @@ import FlatButton from 'material-ui/FlatButton';
 
 import {PersonAdd, Cancel} from '../simpleComponents/plus';
 
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import {Card, CardActions, CardHeader, CardTitle, CardText} from 'material-ui/Card';
 
 
 import './styles.css'
 import SlideDown from '../SlideDown'
 import CreateUser from './CreateUser'
-import User from './User'
-import List from '../UsersList'
+import UsersList from '../UsersList'
 
 const CardTextSlider = SlideDown(CardText)
 class UsersDb extends Component {
 
     constructor(props) {
         super(props);
+        this.createUser = this.createUser.bind(this);
         this.state = {
             showCreationForm: false
         };
+    }
+
+    /**
+     * This method is only for hidding the creation form. It defers the user creation to its parent, the UsersProvider
+     * 
+     * @param {Object} user 
+     * 
+     * @memberof UsersDb
+     */
+    createUser(user){
+        this.props.createUser(user);
+        this.setState({showCreationForm: false})
     }
 
     render() {
@@ -39,11 +51,11 @@ class UsersDb extends Component {
                 />
                 <CardTextSlider expanded={!this.state.showCreationForm}>
                     <div className="Users-list">
-                        <List users={Map(this.props.users, (user,k)=>({...user, id:k }))} />
+                        <UsersList header='Global list of users' tooltip='Grant access to individual databases below' users={Map(this.props.users, (user,k)=>({...user, id:k }))} />
                     </div>
                 </CardTextSlider>
                 <CardTextSlider expanded={this.state.showCreationForm}>
-                    <CreateUser onSubmit={this.props.createUser} />
+                    <CreateUser onSubmit={this.createUser} />
                 </CardTextSlider>
             </Card>
         );
