@@ -9,13 +9,11 @@ import PouchDB  from 'pouchdb'
 import pouchdbAuthentication from 'pouchdb-authentication'
 PouchDB.plugin(pouchdbAuthentication);
 
-import UsersList from '../UsersList'
 import SlideDown from '../SlideDown'
 import GrantUser  from '../GrantUser'
-import {PersonAdd,Cancel, OkButton, ActiveDb, NonActiveDb } from '../simpleComponents/plus'
+import { OkButton, NonActiveDb } from '../simpleComponents/plus'
 
 const GrantUserSlideDown = SlideDown(GrantUser)
-const DivSlideDown = SlideDown('div')
 
 export default class DbItemDisabled extends Component {
 

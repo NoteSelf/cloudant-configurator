@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import Map from 'lodash.map'
-import RaisedButton from 'material-ui/RaisedButton';
-import FlatButton from 'material-ui/FlatButton';
 
 import {PersonAdd, Cancel} from '../simpleComponents/plus';
 
-import {Card, CardActions, CardHeader, CardTitle, CardText} from 'material-ui/Card';
+import {Card, CardTitle, CardText} from 'material-ui/Card';
 
 
 import './styles.css'

@@ -1,11 +1,8 @@
 language: node_js
 node_js:
   - "6"
-# before_script:
-#  - npm install
 script:
-- nodejs node_modules/node-sass/scripts/install.js
-- npm rebuild node-sass
+- npm rebuild node-sass # https://github.com/sass/node-sass/issues/1579
 - npm run build
 deploy:
   provider: pages

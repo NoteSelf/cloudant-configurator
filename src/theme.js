@@ -1,15 +1,14 @@
 import React from 'react';
 
-import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { lighten, fade } from 'material-ui/utils/colorManipulator';
 import {
-  cyan500, cyan700,
-  pinkA200,cyan50,
+  cyan500,
+  pinkA200,
   grey100, grey300, grey400, grey500,grey50,grey800,
-  white, darkBlack, fullBlack,
+  white, darkBlack
 } from 'material-ui/styles/colors'
 
 const NsColor = '#76BB7A';

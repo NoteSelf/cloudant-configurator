@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types'
 
 import MdPerson from 'react-icons/lib/md/person'
 import MdVerifiedUser from 'react-icons/lib/md/verified-user'
@@ -7,7 +6,6 @@ import MdVerifiedUser from 'react-icons/lib/md/verified-user'
 import {
     Table,
     TableBody,
-    TableFooter,
     TableHeader,
     TableHeaderColumn,
     TableRow,

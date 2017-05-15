@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Select } from 'react-form'
+import { Form } from 'react-form'
 import MenuItem from 'material-ui/MenuItem';
 
 import SelectField from '../material-react-form/SelectField';

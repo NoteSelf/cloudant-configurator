@@ -27,6 +27,7 @@ class EnableUsersDb extends Component {
         })
         .catch(({response})=>{
             const {error, reason} = response.data;
+            console.error('Actual error', error);
             this.setState({
                 error: true,
                 errorMessage: reason
