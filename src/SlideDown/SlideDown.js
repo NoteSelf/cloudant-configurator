@@ -8,16 +8,24 @@ import { VelocityTransitionGroup, VelocityComponent } from 'velocity-react'
  */
 const SlideDown = Content => props =>{
 
-    const {expanded, ...passDown} = props;
-    return (
-        <VelocityComponent animation={{ opacity: expanded ? 1 : 0 }} duration={500}>
-            <VelocityTransitionGroup component="div"
-                enter={{ animation: 'slideDown', duration: 500 }}
-                leave={{ animation: 'slideUp', duration: 500 }}>
+    const {expanded, noFade, duration = 500, ...passDown} = props;
+    const Slider = (
+        <VelocityTransitionGroup component="div"
+                enter={{ animation: 'slideDown', duration }}
+                leave={{ animation: 'slideUp', duration }}>
                 { expanded && <Content {...passDown}></Content>}
             </VelocityTransitionGroup>
-        </VelocityComponent>
-    )}
+    );
+
+    return (
+     noFade ? 
+                <div> {Slider}</div>
+            : 
+                <VelocityComponent animation={{ opacity: expanded ? 1 : 0 }} duration={500}>
+                    {Slider}
+                </VelocityComponent>
+    )
+}
 
 
 

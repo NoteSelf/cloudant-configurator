@@ -51,7 +51,7 @@ class UsersDb extends Component {
                 />
                 <CardTextSlider expanded={!this.state.showCreationForm}>
                     <div className="Users-list">
-                        <UsersList users={Map(this.props.users, (user,k)=>({...user, id:k }))} />
+                        <UsersList header='Global list of users' tooltip='Grant access to individual databases below' users={Map(this.props.users, (user,k)=>({...user, id:k }))} />
                     </div>
                 </CardTextSlider>
                 <CardTextSlider expanded={this.state.showCreationForm}>

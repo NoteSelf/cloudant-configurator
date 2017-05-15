@@ -15,6 +15,12 @@ import {
 } from 'material-ui/Table';
 
 const UsersList = props => {
+
+    const { 
+        header ='Existing users',
+        tooltip = ''
+    } = props;
+
     return (
         <Table
             fixedHeader={true}
@@ -27,8 +33,8 @@ const UsersList = props => {
                 enableSelectAll={false}
              >
                 <TableRow>
-                    <TableHeaderColumn colSpan="2" tooltip="All the users" style={{ textAlign: 'center' }}>
-                        Existing users
+                    <TableHeaderColumn colSpan="2" tooltip={tooltip} style={{ textAlign: 'center' }}>
+                        {header}
                     </TableHeaderColumn>
                 </TableRow>
                { /*<TableRow>

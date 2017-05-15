@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { Card, CardTitle, CardText } from 'material-ui/Card';
 import urlJoin from 'url-join'
 import Map from 'lodash.map'
 
 import DbsList from './DbsList'
 import generateAuthDoc from './couchAuthDoc'
+import CardSlider from '../CardSlider'
 
 import './styles.css'
 export default class DbExplorer extends Component {
@@ -125,15 +125,12 @@ export default class DbExplorer extends Component {
         const databasesAsArray = Map( this.state.databases )
 
         return (
-            <Card>
-                <CardTitle
+            <CardSlider
                     title='Databases'
                     subTitle='existing databases'
-                />
-                <CardText>
-                    <DbsList databases={databasesAsArray} {...passDownProps} />
-                </CardText>
-            </Card>
+            >
+                        <DbsList databases={databasesAsArray} {...passDownProps} />
+            </CardSlider>
         );
     }
 }

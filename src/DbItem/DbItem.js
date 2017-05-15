@@ -55,7 +55,7 @@ export default class DbItem extends Component {
                         .concat(
                             admins.names.map( usr =>({ name:usr, admin:true })) // Admin users
                         )
-        return <UsersList users={users} />
+        return <UsersList users={users} header={'Users with access to ' + this.props.name}/>
     }
 
     render() {
