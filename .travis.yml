@@ -4,6 +4,8 @@ node_js:
 # before_script:
 #  - npm install
 script:
+- nodejs node_modules/node-sass/scripts/install.js
+- npm rebuild node-sass
 - npm run build
 deploy:
   provider: pages
