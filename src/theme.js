@@ -6,7 +6,6 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { lighten, fade } from 'material-ui/utils/colorManipulator';
 import {
   cyan500,
-  pinkA200,
   grey100, grey300, grey400, grey500,grey50,grey800,
   white, darkBlack
 } from 'material-ui/styles/colors'
