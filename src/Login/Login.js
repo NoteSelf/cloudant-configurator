@@ -10,14 +10,10 @@ export default class Login extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {user:{ name: 'danielo515', password: '' }};
+        this.state = {user:{ name: '', password: '' }};
         this.tryLogin = this.tryLogin.bind(this);
         this.whoAmI = this.whoAmI.bind(this);
         this.logout = this.logout.bind(this);
-    }
-
-    handleChange(kindOfValue) {
-        return (event) => this.setState({ user: { ...this.state.user, [kindOfValue]: event.target.value} });
     }
 
     url(subpath=''){
@@ -43,9 +39,11 @@ export default class Login extends Component {
     }
 
     tryLogin(user) {
-        axios.post(this.url('_session'),user)
-        .then(this.whoAmI)
-        .catch(console.info);
+        this.setState({user}, () =>
+                      axios.post(this.url('_session'),user)
+                      .then(this.whoAmI)
+                      .catch(console.info)
+                     )
     }
 
     render() {
